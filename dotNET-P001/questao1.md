@@ -1,4 +1,4 @@
-# Configuração do ambiente:
+# 1- Configuração do ambiente:
 
 ## Verificar a versão do .NET SDK instalada:
 
