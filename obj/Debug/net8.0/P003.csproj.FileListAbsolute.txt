@@ -1,0 +1,15 @@
+c:\Users\erika\.NET-3\bin\Debug\net8.0\P003.exe
+c:\Users\erika\.NET-3\bin\Debug\net8.0\P003.deps.json
+c:\Users\erika\.NET-3\bin\Debug\net8.0\P003.runtimeconfig.json
+c:\Users\erika\.NET-3\bin\Debug\net8.0\P003.dll
+c:\Users\erika\.NET-3\bin\Debug\net8.0\P003.pdb
+c:\Users\erika\.NET-3\obj\Debug\net8.0\P003.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\erika\.NET-3\obj\Debug\net8.0\P003.AssemblyInfoInputs.cache
+c:\Users\erika\.NET-3\obj\Debug\net8.0\P003.AssemblyInfo.cs
+c:\Users\erika\.NET-3\obj\Debug\net8.0\P003.csproj.CoreCompileInputs.cache
+c:\Users\erika\.NET-3\obj\Debug\net8.0\P003.sourcelink.json
+c:\Users\erika\.NET-3\obj\Debug\net8.0\P003.dll
+c:\Users\erika\.NET-3\obj\Debug\net8.0\refint\P003.dll
+c:\Users\erika\.NET-3\obj\Debug\net8.0\P003.pdb
+c:\Users\erika\.NET-3\obj\Debug\net8.0\P003.genruntimeconfig.cache
+c:\Users\erika\.NET-3\obj\Debug\net8.0\ref\P003.dll
