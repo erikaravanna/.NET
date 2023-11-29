@@ -1,133 +1,177 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-class Program
+
+namespace POGDevConsultorio
 {
-    static void Main()
+    public class Pessoa
     {
-        // Exemplo de utilização das classes
-        Medico medico = new Medico("Dr. Silva", new DateTime(1980, 5, 15), "12345678901", "CRM12345");
-        Paciente paciente = new Paciente("Maria", new DateTime(1990, 8, 22), "98765432109", Sexo.Feminino, "Dor de cabeça");
+        public string Nome { get; private set; }
+        public DateTime DataNascimento { get; private set; }
+        public string CPF { get; private set; }
 
-        // Adicionando pacientes ao médico
-        medico.AdicionarPaciente(paciente);
-
-        // Exibindo relatório de pacientes do médico
-        medico.GerarRelatorioPacientes();
-
-        // Outros exemplos de operações...
-    }
-}
-
-// Enum para representar o sexo do paciente
-public enum Sexo
-{
-    Masculino,
-    Feminino
-}
-
-// Classe base para pessoa
-public abstract class Pessoa
-{
-    public string Nome { get; set; }
-    public DateTime DataNascimento { get; set; }
-    public string CPF { get; set; }
-
-    public Pessoa(string nome, DateTime dataNascimento, string cpf)
-    {
-        Nome = nome;
-        DataNascimento = dataNascimento;
-        CPF = cpf;
-    }
-}
-
-// Classe Médico herda de Pessoa
-public class Medico : Pessoa
-{
-    public string CRM { get; set; }
-    private List<Paciente> pacientes;
-
-    public Medico(string nome, DateTime dataNascimento, string cpf, string crm)
-        : base(nome, dataNascimento, cpf)
-    {
-        CRM = crm;
-        pacientes = new List<Paciente>();
-    }
-
-    public void AdicionarPaciente(Paciente paciente)
-    {
-        pacientes.Add(paciente);
-    }
-
-    public void GerarRelatorioPacientes()
-    {
-        Console.WriteLine($"Relatório de Pacientes do Dr. {Nome} (CRM: {CRM}):");
-        foreach (var paciente in pacientes)
+        public Pessoa(string nome, DateTime dataNascimento, string cpf)
         {
-            Console.WriteLine($"- Nome: {paciente.Nome}, CPF: {paciente.CPF}");
+            if (cpf.Length != 11)
+            {
+                throw new ArgumentException("O CPF deve ter 11 dígitos.");
+            }
+
+            Nome = nome;
+            DataNascimento = dataNascimento;
+            CPF = cpf;
+        }
+
+        public virtual void Apresentar()
+        {
+            Console.WriteLine($"Nome: {Nome}, Data de Nascimento: {DataNascimento.ToShortDateString()}, CPF: {CPF}");
+        }
+    }
+
+    public enum Sexo
+    {
+        Masculino,
+        Feminino
+    }
+
+    public class Paciente : Pessoa
+    {
+        public Sexo Sexo { get; private set; }
+        public string Sintomas { get; private set; }
+
+        public Paciente(string nome, DateTime dataNascimento, string cpf, Sexo sexo, string sintomas)
+            : base(nome, dataNascimento, cpf)
+        {
+            Sexo = sexo;
+            Sintomas = sintomas;
+        }
+
+        public override void Apresentar()
+        {
+            Console.WriteLine($"Paciente - Sexo: {Sexo}, {base.Nome}, {base.DataNascimento.ToShortDateString()}, CPF: {base.CPF}, Sintomas: {Sintomas}");
+        }
+    }
+
+    public class Medico : Pessoa
+    {
+        public string CRM { get; private set; }
+
+        public Medico(string nome, DateTime dataNascimento, string cpf, string crm)
+            : base(nome, dataNascimento, cpf)
+        {
+            CRM = crm;
+        }
+
+        public override void Apresentar()
+        {
+            Console.WriteLine($"Médico - CRM: {CRM}, {base.Nome}, {base.DataNascimento.ToShortDateString()}, CPF: {base.CPF}");
+        }
+    }
+
+    public class Consultorio
+    {
+        private List<Medico> medicos;
+        private List<Paciente> pacientes;
+
+        public Consultorio()
+        {
+            medicos = new List<Medico>();
+            pacientes = new List<Paciente>();
+        }
+
+        public void AdicionarMedico(Medico medico)
+        {
+            if (medicos.Any(m => m.CRM == medico.CRM))
+            {
+                throw new ArgumentException($"Médico com CRM {medico.CRM} já cadastrado.");
+            }
+
+            medicos.Add(medico);
+        }
+
+        public void AdicionarPaciente(Paciente paciente)
+        {
+            if (pacientes.Any(p => p.CPF == paciente.CPF))
+            {
+                throw new ArgumentException($"Paciente com CPF {paciente.CPF} já cadastrado.");
+            }
+
+            pacientes.Add(paciente);
+        }
+
+        public void GerarRelatorioPessoas()
+        {
+            Console.WriteLine("Relatório de Médicos:");
+            medicos.ForEach(m => m.Apresentar());
+
+            Console.WriteLine("\nRelatório de Pacientes:");
+            pacientes.ForEach(p => p.Apresentar());
+        }
+
+        public IEnumerable<Medico> MedicosComIdadeEntre(int idadeMinima, int idadeMaxima)
+        {
+            return medicos.Where(m => CalculaIdade(m.DataNascimento) >= idadeMinima && CalculaIdade(m.DataNascimento) <= idadeMaxima);
+        }
+
+        public IEnumerable<Paciente> PacientesComIdadeEntre(int idadeMinima, int idadeMaxima)
+        {
+            return pacientes.Where(p => CalculaIdade(p.DataNascimento) >= idadeMinima && CalculaIdade(p.DataNascimento) <= idadeMaxima);
+        }
+
+        private int CalculaIdade(DateTime dataNascimento)
+        {
+            int idade = DateTime.Now.Year - dataNascimento.Year;
+            if (DateTime.Now.Month < dataNascimento.Month || (DateTime.Now.Month == dataNascimento.Month && DateTime.Now.Day < dataNascimento.Day))
+            {
+                idade--;
+            }
+            return idade;
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            try
+            {
+                Consultorio consultorio = new Consultorio();
+
+                Medico medico1 = new Medico("Dra. Erika", new DateTime(2000, 7, 7), "05827907510", "CRM54321);
+                Medico medico2 = new Medico("Dr. Fernando", new DateTime(1999, 8, 10), "74927230597, "CRM76541");
+                Medico medico3 = new Medico("Dra. Julia", new DateTime(1977, 5, 13), "98765436821", "CRM89123");
+                Medico medico4 = new Medico("Dr. Luis", new DateTime(1978, 7, 4), "1254368791", "CRM78965);
+
+                Paciente paciente1 = new Paciente("Lara", new DateTime(2010, 7, 8), "25725678321", Sexo.Feminino, "Enjoo");
+                Paciente paciente2 = new Paciente("Carlos", new DateTime(2000, 11, 15), "", Sexo.Masculino, "Dor de barriga");
+                Paciente paciente3 = new Paciente("Raissa", new DateTime(2000, 3, 16), "", Sexo.Feminino, "Febre");
+                Paciente paciente4 = new Paciente("Lucas", new DateTime(1998, 8, 24), "", Sexo.Feminino, "Dor de cabeça");
+
+                consultorio.AdicionarMedico(medico1);
+                consultorio.AdicionarMedico(medico2);
+                consultorio.AdicionarMedico(medico3);
+                consultorio.AdicionarMedico(medico4);
+
+                consultorio.AdicionarPaciente(paciente1);
+                consultorio.AdicionarPaciente(paciente2);
+                consultorio.AdicionarPaciente(paciente3);
+                consultorio.AdicionarPaciente(paciente4);
+
+                // Relatórios
+                Console.WriteLine("Médicos com idade entre 30 e 40 anos:");
+                consultorio.MedicosComIdadeEntre(30, 40).ToList().ForEach(m => m.Apresentar());
+
+                Console.WriteLine("\nPacientes com idade entre 20 e 30 anos:");
+                consultorio.PacientesComIdadeEntre(20, 30).ToList().ForEach(p => p.Apresentar());
+
+                // Adicione mais relatórios conforme necessário...
+
+                consultorio.GerarRelatorioPessoas();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro: {ex.Message}");
+            }
         }
     }
 }
-
-// Classe Paciente herda de Pessoa
-public class Paciente : Pessoa
-{
-    public Sexo Sexo { get; set; }
-    public string Sintomas { get; set; }
-
-    public Paciente(string nome, DateTime dataNascimento, string cpf, Sexo sexo, string sintomas)
-        : base(nome, dataNascimento, cpf)
-    {
-        Sexo = sexo;
-        Sintomas = sintomas;
-    }
-}
-
-class Program
-{
-    static void Main()
-    {
-        // Solicitação de dados do médico
-        Console.WriteLine("Informe os dados do médico:");
-        Console.Write("Nome: ");
-        string nomeMedico = Console.ReadLine();
-
-        Console.Write("Data de Nascimento (yyyy-MM-dd): ");
-        DateTime dataNascimentoMedico = DateTime.Parse(Console.ReadLine());
-
-        Console.Write("CPF (11 dígitos): ");
-        string cpfMedico = Console.ReadLine();
-
-        Console.Write("CRM: ");
-        string crmMedico = Console.ReadLine();
-
-        Medico medico = new Medico(nomeMedico, dataNascimentoMedico, cpfMedico, crmMedico);
-
-        // Solicitação de dados do paciente
-        Console.WriteLine("\nInforme os dados do paciente:");
-        Console.Write("Nome: ");
-        string nomePaciente = Console.ReadLine();
-
-        Console.Write("Data de Nascimento (yyyy-MM-dd): ");
-        DateTime dataNascimentoPaciente = DateTime.Parse(Console.ReadLine());
-
-        Console.Write("CPF (11 dígitos): ");
-        string cpfPaciente = Console.ReadLine();
-
-        Console.Write("Sexo (M/F): ");
-        Sexo sexoPaciente = Console.ReadLine().ToUpper() == "M" ? Sexo.Masculino : Sexo.Feminino;
-
-        Console.Write("Sintomas: ");
-        string sintomasPaciente = Console.ReadLine();
-
-        Paciente paciente = new Paciente(nomePaciente, dataNascimentoPaciente, cpfPaciente, sexoPaciente, sintomasPaciente);
-
-        // Exemplo de consulta médica
-        Consulta consulta = new Consulta(medico, paciente, DateTime.Now, "Consulta de rotina");
-
-        // Exemplo de relatório de consultas
-        Relatorio relatorio = new Relatorio();
-        relatorio.GerarRelatorioConsultas(new List<Consulta> { consulta });
-    }
-}
-
