@@ -82,3 +82,52 @@ public class Paciente : Pessoa
         Sintomas = sintomas;
     }
 }
+
+class Program
+{
+    static void Main()
+    {
+        // Solicitação de dados do médico
+        Console.WriteLine("Informe os dados do médico:");
+        Console.Write("Nome: ");
+        string nomeMedico = Console.ReadLine();
+
+        Console.Write("Data de Nascimento (yyyy-MM-dd): ");
+        DateTime dataNascimentoMedico = DateTime.Parse(Console.ReadLine());
+
+        Console.Write("CPF (11 dígitos): ");
+        string cpfMedico = Console.ReadLine();
+
+        Console.Write("CRM: ");
+        string crmMedico = Console.ReadLine();
+
+        Medico medico = new Medico(nomeMedico, dataNascimentoMedico, cpfMedico, crmMedico);
+
+        // Solicitação de dados do paciente
+        Console.WriteLine("\nInforme os dados do paciente:");
+        Console.Write("Nome: ");
+        string nomePaciente = Console.ReadLine();
+
+        Console.Write("Data de Nascimento (yyyy-MM-dd): ");
+        DateTime dataNascimentoPaciente = DateTime.Parse(Console.ReadLine());
+
+        Console.Write("CPF (11 dígitos): ");
+        string cpfPaciente = Console.ReadLine();
+
+        Console.Write("Sexo (M/F): ");
+        Sexo sexoPaciente = Console.ReadLine().ToUpper() == "M" ? Sexo.Masculino : Sexo.Feminino;
+
+        Console.Write("Sintomas: ");
+        string sintomasPaciente = Console.ReadLine();
+
+        Paciente paciente = new Paciente(nomePaciente, dataNascimentoPaciente, cpfPaciente, sexoPaciente, sintomasPaciente);
+
+        // Exemplo de consulta médica
+        Consulta consulta = new Consulta(medico, paciente, DateTime.Now, "Consulta de rotina");
+
+        // Exemplo de relatório de consultas
+        Relatorio relatorio = new Relatorio();
+        relatorio.GerarRelatorioConsultas(new List<Consulta> { consulta });
+    }
+}
+
