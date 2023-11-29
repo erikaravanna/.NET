@@ -103,7 +103,7 @@ public class Consultas
 {
     public static IEnumerable<Medico> FiltrarMedicosPorIdade(int idadeMinima, int idadeMaxima)
     {
-        return from medico in ConsultorioMedico.medicos
+        return from medico in medicos
                 where medico.DataNascimento.Year - medico.DataNascimento.Month * 12 - medico.DataNascimento.Day >= idadeMinima
                 && medico.DataNascimento.Year - medico.DataNascimento.Month * 12 - medico.DataNascimento.Day <= idadeMaxima
                 select medico;
@@ -111,7 +111,7 @@ public class Consultas
 
     public static IEnumerable<Paciente> FiltrarPacientesPorIdade(int idadeMinima, int idadeMaxima)
     {
-        return from paciente in ConsultorioMedico.pacientes
+        return from paciente in pacientes
                 where paciente.DataNascimento.Year - paciente.DataNascimento.Month * 12 - paciente.DataNascimento.Day >= idadeMinima
                 && paciente.DataNascimento.Year - paciente.DataNascimento.Month * 12 - paciente.DataNascimento.Day <= idadeMaxima
                 select paciente;
@@ -119,21 +119,21 @@ public class Consultas
 
     public static IEnumerable<Paciente> FiltrarPacientesPorSexo(string sexo)
     {
-        return from paciente in ConsultorioMedico.pacientes
+        return from paciente in pacientes
                 where paciente.Sexo == sexo
                 select paciente;
     }
 
     public static IEnumerable<Paciente> OrdenarPacientesPorNome()
     {
-        return from paciente in ConsultorioMedico.pacientes
+        return from paciente in pacientes
         orderby paciente.Nome
         select paciente;
     }
 
     public static IEnumerable<Paciente> FiltrarPacientesPorSintomas(string sintomas)
     {
-        return from paciente in ConsultorioMedico.pacientes
+        return from paciente in pacientes
                 where paciente.Sintomas.Contains(sintomas)
                 select paciente;
     }
@@ -181,13 +181,4 @@ var pacientes = Consultas.FiltrarPacientesPorSintomas(sintomas);
 foreach (var paciente in pacientes)
 {
     Console.WriteLine(paciente.Nome);
-}
-
-var mes = Console.ReadLine();
-
-var pessoas = Consultas.FiltrarAniversariantes(mes);
-
-foreach (var pessoa in pessoas)
-{
-    Console.WriteLine(pessoa.Nome);
 }
