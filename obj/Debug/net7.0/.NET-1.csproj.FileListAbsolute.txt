@@ -1,0 +1,15 @@
+/home/erika-dias-oliveira/.NET-1/bin/Debug/net7.0/.NET-1
+/home/erika-dias-oliveira/.NET-1/bin/Debug/net7.0/.NET-1.deps.json
+/home/erika-dias-oliveira/.NET-1/bin/Debug/net7.0/.NET-1.runtimeconfig.json
+/home/erika-dias-oliveira/.NET-1/bin/Debug/net7.0/.NET-1.dll
+/home/erika-dias-oliveira/.NET-1/bin/Debug/net7.0/.NET-1.pdb
+/home/erika-dias-oliveira/.NET-1/obj/Debug/net7.0/.NET-1.csproj.AssemblyReference.cache
+/home/erika-dias-oliveira/.NET-1/obj/Debug/net7.0/.NET-1.GeneratedMSBuildEditorConfig.editorconfig
+/home/erika-dias-oliveira/.NET-1/obj/Debug/net7.0/.NET-1.AssemblyInfoInputs.cache
+/home/erika-dias-oliveira/.NET-1/obj/Debug/net7.0/.NET-1.AssemblyInfo.cs
+/home/erika-dias-oliveira/.NET-1/obj/Debug/net7.0/.NET-1.csproj.CoreCompileInputs.cache
+/home/erika-dias-oliveira/.NET-1/obj/Debug/net7.0/.NET-1.dll
+/home/erika-dias-oliveira/.NET-1/obj/Debug/net7.0/refint/.NET-1.dll
+/home/erika-dias-oliveira/.NET-1/obj/Debug/net7.0/.NET-1.pdb
+/home/erika-dias-oliveira/.NET-1/obj/Debug/net7.0/.NET-1.genruntimeconfig.cache
+/home/erika-dias-oliveira/.NET-1/obj/Debug/net7.0/ref/.NET-1.dll
