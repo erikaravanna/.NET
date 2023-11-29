@@ -137,15 +137,15 @@ namespace POGDevConsultorio
             {
                 Consultorio consultorio = new Consultorio();
 
-                Medico medico1 = new Medico("Dra. Erika", new DateTime(2000, 7, 7), "05827907510", "CRM54321);
-                Medico medico2 = new Medico("Dr. Fernando", new DateTime(1999, 8, 10), "74927230597, "CRM76541");
+                Medico medico1 = new Medico("Dra. Erika", new DateTime(2000, 7, 7), "08527907510", "CRM54321");
+                Medico medico2 = new Medico("Dr. Fernando", new DateTime(1999, 8, 10), "74927230597", "CRM76541");
                 Medico medico3 = new Medico("Dra. Julia", new DateTime(1977, 5, 13), "98765436821", "CRM89123");
-                Medico medico4 = new Medico("Dr. Luis", new DateTime(1978, 7, 4), "1254368791", "CRM78965);
+                Medico medico4 = new Medico("Dr. Luis", new DateTime(1978, 7, 4), "12514368791", "CRM78965");
 
-                Paciente paciente1 = new Paciente("Lara", new DateTime(2010, 7, 8), "25725678321", Sexo.Feminino, "Enjoo");
-                Paciente paciente2 = new Paciente("Carlos", new DateTime(2000, 11, 15), "", Sexo.Masculino, "Dor de barriga");
-                Paciente paciente3 = new Paciente("Raissa", new DateTime(2000, 3, 16), "", Sexo.Feminino, "Febre");
-                Paciente paciente4 = new Paciente("Lucas", new DateTime(1998, 8, 24), "", Sexo.Feminino, "Dor de cabeça");
+                Paciente paciente1 = new Paciente("Lara", new DateTime(2010, 7, 8), "25725678321", Sexo.Feminino, "Cólica");
+                Paciente paciente2 = new Paciente("Carlos", new DateTime(2000, 11, 15), "98764578976", Sexo.Masculino, "Dor de Cabeça");
+                Paciente paciente3 = new Paciente("Raissa", new DateTime(2000, 3, 16), "08578936572", Sexo.Feminino, "Dor de Barriga");
+                Paciente paciente4 = new Paciente("Lucas", new DateTime(1978, 8, 24), "22346789642", Sexo.Feminino, "Febre");
 
                 consultorio.AdicionarMedico(medico1);
                 consultorio.AdicionarMedico(medico2);
