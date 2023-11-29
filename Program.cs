@@ -98,25 +98,96 @@ public class ConsultorioMedico
             pacientes.Add(paciente);
         }
     }
-
-    public void GerarRelatorio1(int idadeMinima, int idadeMaxima)
+}
+public class Consultas
+{
+    public static IEnumerable<Medico> FiltrarMedicosPorIdade(int idadeMinima, int idadeMaxima)
     {
-        Console.WriteLine("Médicos com idade entre {0} e {1}", idadeMinima, idadeMaxima);
-        foreach (var medico in medicos.Where(m => m.DataNascimento.Year - m.DataNascimento.Month * 12 - m.DataNascimento.Day >= idadeMinima &&
-                                                m.DataNascimento.Year - m.DataNascimento.Month * 12 - m.DataNascimento.Day <= idadeMaxima))
-        {
-            Console.WriteLine(medico.Nome);
-        }
+        return from medico in ConsultorioMedico.medicos
+                where medico.DataNascimento.Year - medico.DataNascimento.Month * 12 - medico.DataNascimento.Day >= idadeMinima
+                && medico.DataNascimento.Year - medico.DataNascimento.Month * 12 - medico.DataNascimento.Day <= idadeMaxima
+                select medico;
     }
 
-    public void GerarRelatorio2(int idadeMinima, int idadeMaxima)
+    public static IEnumerable<Paciente> FiltrarPacientesPorIdade(int idadeMinima, int idadeMaxima)
     {
-        Console.WriteLine("Pacientes com idade entre {0} e {1}", idadeMinima, idadeMaxima);
-        foreach (var paciente in pacientes.Where(p => p.DataNascimento.Year - p.DataNascimento.Month * 12 - p.DataNascimento.Day >= idadeMinima &&
-                                                p.DataNascimento.Year - p.DataNascimento.Month * 12 - p.DataNascimento.Day <= idadeMaxima))
-        {
-            Console.WriteLine(paciente.Nome);
-        }
+        return from paciente in ConsultorioMedico.pacientes
+                where paciente.DataNascimento.Year - paciente.DataNascimento.Month * 12 - paciente.DataNascimento.Day >= idadeMinima
+                && paciente.DataNascimento.Year - paciente.DataNascimento.Month * 12 - paciente.DataNascimento.Day <= idadeMaxima
+                select paciente;
     }
 
-    public void GerarRelatorio3(string sexo)
+    public static IEnumerable<Paciente> FiltrarPacientesPorSexo(string sexo)
+    {
+        return from paciente in ConsultorioMedico.pacientes
+                where paciente.Sexo == sexo
+                select paciente;
+    }
+
+    public static IEnumerable<Paciente> OrdenarPacientesPorNome()
+    {
+        return from paciente in ConsultorioMedico.pacientes
+        orderby paciente.Nome
+        select paciente;
+    }
+
+    public static IEnumerable<Paciente> FiltrarPacientesPorSintomas(string sintomas)
+    {
+        return from paciente in ConsultorioMedico.pacientes
+                where paciente.Sintomas.Contains(sintomas)
+                select paciente;
+    }
+
+    public static IEnumerable<Pessoa> FiltrarAniversariantes(int mes)
+    {
+        return from pessoa in medicos.Concat(pacientes)
+                where pessoa.DataNascimento.Month == mes
+                select pessoa;
+    }
+}
+
+var medicos = Consultas.FiltrarMedicosPorIdade(25, 35);
+
+foreach (var medico in medicos)
+{
+    Console.WriteLine(medico.Nome);
+}
+
+var pacientes = Consultas.FiltrarPacientesPorIdade(18, 25);
+
+foreach (var paciente in pacientes)
+{
+    Console.WriteLine(paciente.Nome);
+}
+
+var pacientes = Consultas.FiltrarPacientesPorSexo(Console.ReadLine());
+
+foreach (var paciente in pacientes)
+{
+    Console.WriteLine(paciente.Nome);
+}
+
+var pacientes = Consultas.OrdenarPacientesPorNome();
+
+foreach (var paciente in pacientes)
+{
+    Console.WriteLine(paciente.Nome);
+}
+
+var sintomas = Console.ReadLine();
+
+var pacientes = Consultas.FiltrarPacientesPorSintomas(sintomas);
+
+foreach (var paciente in pacientes)
+{
+    Console.WriteLine(paciente.Nome);
+}
+
+var mes = Console.ReadLine();
+
+var pessoas = Consultas.FiltrarAniversariantes(mes);
+
+foreach (var pessoa in pessoas)
+{
+    Console.WriteLine(pessoa.Nome);
+}
